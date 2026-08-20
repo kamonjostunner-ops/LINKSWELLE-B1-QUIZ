@@ -1,0 +1,13 @@
+# Force binary files to be treated as binary to prevent CRLF corruption
+*.jar binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.mp3 binary
+*.wav binary
+
+# Force Unix line endings for shell scripts
+*.sh text eol=lf
+gradlew text eol=lf

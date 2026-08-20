@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">LINKSWELLE B1 QUIZ</string>
+    <string name="title_activity_main">LINKSWELLE B1 QUIZ</string>
+    <string name="package_name">com.linkswelle.b1quiz</string>
+    <string name="custom_url_scheme">com.linkswelle.b1quiz</string>
+</resources>

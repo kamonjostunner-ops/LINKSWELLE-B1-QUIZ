@@ -1,0 +1,8 @@
+{
+	"appId": "com.linkswelle.b1quiz",
+	"appName": "LINKSWELLE B1 QUIZ",
+	"webDir": "dist",
+	"server": {
+		"androidScheme": "https"
+	}
+}

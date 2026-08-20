@@ -1,0 +1,10 @@
+{
+  "name": "Linkswelle B1 Quiz",
+  "description": "A highly polished Goethe-Zertifikat B1 Exam Suite including oral pronunciation checks, hearing comprehension modules, syntax constructors, custom dialogue builders, and AI letter assessors.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
