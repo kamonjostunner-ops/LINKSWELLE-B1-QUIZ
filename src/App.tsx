@@ -126,8 +126,6 @@ export default function App() {
   const [screen, setScreen] = useState<'home' | 'topic' | 'quiz' | 'flashcard'>('home');
   const [selectedTopic, setSelectedTopic] = useState<string>('');
   const [showSettings, setShowSettings] = useState(false);
-  const [showPromoModal, setShowPromoModal] = useState(false);
-  const [trialRequested, setTrialRequested] = useState(false);
 
   // Active quiz compilation
   const [activeQuizMode, setActiveQuizMode] = useState<QuizMode>('meaning');
@@ -742,16 +740,6 @@ export default function App() {
           <span className="animate-pulse text-sm">🎓</span>
           <span className="tracking-widest">LINKSWELLE INSTITUT</span>
         </div>
-        <button
-          onClick={() => {
-            setTrialRequested(false);
-            setShowPromoModal(true);
-          }}
-          className="text-[10px] px-2.5 py-1.5 bg-yellow-400 hover:bg-yellow-300 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-slate-950 dark:text-white rounded-md font-black shadow-sm transition active:scale-95 cursor-pointer"
-          type="button"
-        >
-          {settings.lang === 'de' ? 'Probestunde ⚡' : 'Free Trial ⚡'}
-        </button>
       </div>
 
       <main className="flex-1 w-full overflow-x-hidden">
@@ -918,102 +906,6 @@ export default function App() {
           onUpdateSettings={handleUpdateSettings}
           onClose={() => setShowSettings(false)}
         />
-      )}
-
-      {/* LINKSWELLE INSTITUT Advertisement & Trial Enrollment Modal */}
-      {showPromoModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 select-none animate-fade-in">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 max-w-sm w-full border border-gray-100 dark:border-slate-800 shadow-2xl relative">
-            <button
-              onClick={() => setShowPromoModal(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-white text-lg font-black"
-              type="button"
-            >
-              ✕
-            </button>
-            
-            {!trialRequested ? (
-               <div>
-                 <div className="text-center">
-                   <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-100 dark:bg-slate-800 text-2xl mb-3">
-                     🎓
-                   </div>
-                   <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">
-                     Linkswelle Institut
-                   </h3>
-                   <p className="text-[10px] uppercase font-black text-indigo-600 dark:text-cyan-400 tracking-widest mt-0.5">
-                     {settings.lang === 'de' ? 'Zertifizierte Sprachschule' : 'Accredited German School'}
-                   </p>
-                 </div>
-                 
-                 <div className="mt-5 space-y-3.5 text-xs text-slate-600 dark:text-slate-300 font-semibold leading-relaxed text-left">
-                   <div className="flex gap-2.5 items-start">
-                     <span className="text-emerald-500 text-sm font-bold">✓</span>
-                     <p>
-                       <strong>{settings.lang === 'de' ? 'A1-C1 Deutschkurse:' : 'A1-C1 Intensive Courses:'}</strong>{' '}
-                       {settings.lang === 'de' 
-                         ? 'Tägliche Online- und Präsenzkurse mit qualifizierten Muttersprachlern.' 
-                         : 'Daily online & in-person tracks with expert native speakers.'}
-                     </p>
-                   </div>
-                   <div className="flex gap-2.5 items-start">
-                     <span className="text-emerald-500 text-sm font-bold">✓</span>
-                     <p>
-                       <strong>{settings.lang === 'de' ? 'B1 Prüfungsvorbereitung:' : 'Goethe Certificate Prep:'}</strong>{' '}
-                       {settings.lang === 'de'
-                         ? '98% Erfolgsquote beim Goethe-Zertifikat und telc B1 Prüfungen.'
-                         : '98% pass rate for the official Goethe-Zertifikat and telc B1 exams.'}
-                     </p>
-                   </div>
-                   <div className="flex gap-2.5 items-start">
-                     <span className="text-emerald-500 text-sm font-bold">✓</span>
-                     <p>
-                       <strong>{settings.lang === 'de' ? 'Digitales KI-Labor:' : 'Smart Hybrid Curricula:'}</strong>{' '}
-                       {settings.lang === 'de'
-                         ? 'Exklusiver Zugang zu unserem modernen Conversation-Simulator.'
-                         : 'Exclusive access to our cutting-edge active conversation simulator.'}
-                     </p>
-                   </div>
-                 </div>
-                 
-                 <div className="mt-6 pt-4 border-t border-gray-100 dark:border-slate-850">
-                   <button
-                     onClick={() => setTrialRequested(true)}
-                     className="w-full py-3 bg-indigo-600 hover:bg-indigo-505 text-white text-xs font-black rounded-xl shadow-md transition active:scale-97 cursor-pointer"
-                     type="button"
-                   >
-                     {settings.lang === 'de' ? 'Kostenlose Probestunde anfragen ⚡' : 'Request Free Trial Lesson ⚡'}
-                   </button>
-                   <p className="text-[9.5px] text-gray-400 text-center mt-2.5 font-medium">
-                     {settings.lang === 'de' ? 'Völlig unverbindlich • Plätze sind begrenzt' : 'No obligation • Limited availability'}
-                   </p>
-                 </div>
-               </div>
-            ) : (
-               <div className="text-center py-4">
-                 <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 text-3xl mb-4">
-                   🎉
-                 </div>
-                 <h3 className="text-base font-black text-slate-900 dark:text-white tracking-tight">
-                   {settings.lang === 'de' ? 'Anfrage eingegangen!' : 'Request Received!'}
-                 </h3>
-                 <p className="text-xs text-slate-500 dark:text-slate-300 mt-2 leading-relaxed font-semibold px-2">
-                   {settings.lang === 'de' 
-                     ? `Vielen Dank, ${settings.userName}! Ein Bildungsberater des Linkswelle Instituts wird Sie in Kürze unter kamonjostunner@gmail.com kontaktieren.`
-                     : `Thank you, ${settings.userName}! A Linkswelle education advisor will contact you at kamonjostunner@gmail.com shortly.`}
-                 </p>
-                 
-                 <button
-                   onClick={() => setShowPromoModal(false)}
-                   className="mt-6 px-6 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-black rounded-lg transition active:scale-95 cursor-pointer"
-                   type="button"
-                 >
-                   {settings.lang === 'de' ? 'Schließen' : 'Close'}
-                 </button>
-               </div>
-            )}
-          </div>
-        </div>
       )}
     </div>
   );
