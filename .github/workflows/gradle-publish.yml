@@ -1,0 +1,97 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, git checkout -b update-build-apk-workflow
+cat > .github/workflows/build-apk.yml <<'EOF'
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: linkswelle-institut-b1-quiz/package-lock.json
+
+      - name: Install dependencies
+        working-directory: linkswelle-institut-b1-quiz
+        run: npm install
+
+      - name: Build web app
+        working-directory: linkswelle-institut-b1-quiz
+        run: npm run build
+
+      - name: Sync Capacitor Android
+        working-directory: linkswelle-institut-b1-quiz
+        run: npx cap sync android
+
+      - name: Build APK
+        working-directory: linkswelle-institut-b1-quiz/android
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Linkswelle-B1-Quiz-APK
+          path: linkswelle-institut-b1-quiz/android/app/build/outputs/apk/debug/app-debug.apk
+EOF
+
+git add .github/workflows/build-apk.yml
+git commit -m "Replace Android APK workflow configuration"
+git push -u origin update-build-apk-workflowprivacy policy, and support
+# documentation.
+# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
+
+name: Gradle Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
+    - name: Build with Gradle
+      run: ./gradlew build
+
+    # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
+    # the publishing section of your build.gradle
+    - name: Publish to GitHub Packages
+      run: ./gradlew publish
+      env:
+        USERNAME: ${{ github.actor }}
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
